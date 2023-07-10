@@ -1,0 +1,6 @@
+.main{
+    min-height: 85vh;
+    display: grid;
+    /* place-content: center; */
+    border: 1px solid black;
+}
