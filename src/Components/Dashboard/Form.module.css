@@ -1,0 +1,37 @@
+.disableInput{
+    background-color: lightgray;
+}
+
+.dropdownInput{
+    border: 0.5px solid lightgray;
+    padding: 4px;
+}
+
+.downloadFileIcon{
+    font-size: x-large;
+    color: lightslategrey;
+    
+}
+.downloadFileIcon:hover{
+    color: #174A81;
+}
+
+.labelDark{
+    font-weight: 600;
+}
+
+.buttonBgColor{
+    background-color: #174A81;
+}
+.buttonBgColor:hover{
+    background-color: #174A81;
+}
+.colDisplay{
+    display: flex;
+}
+.checkBox{
+    /* margin-bottom: 20px;
+    border-color: #174A81;
+    background-color: red;
+     */
+}
