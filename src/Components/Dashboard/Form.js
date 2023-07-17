@@ -236,16 +236,16 @@ export default function Form() {
                         <div className='row p-3'>
                             <div className={'col-4 p-2'}>
                                 <div className={"form-group" + " " + styles.colDisplay}>
-                                    <label className={"p-2 form-check-label" + " " + styles.labelDark + " "+ styles.labelDarkCheckBox} htmlFor="flexCheckDefault">
+                                    <label className={"p-2 form-check-label" + " " + styles.labelDark} htmlFor="flexCheckDefault">
                                         FixedLength
                                     </label>
 
-                                    <input onChange={(e) => { setFixedLength(e.target.checked); }} checked={FixedLength} className={styles.checkBox} name="fixedlength" type="checkbox" />
+                                    <input onChange={(e) => { setFixedLength(e.target.checked); }} checked={FixedLength} className={styles.checkBox+ " "+ styles.checkboxiconFixedlength} name="fixedlength" type="checkbox" />
                                 </div>
                             </div>
                             <div className={'col-4 p-2'}>
                                 <div className={"form-group" + " " + styles.colDisplay}>
-                                    <label className={"p-2" + " " + styles.labelDark }>Download template file</label>&nbsp;&nbsp;<a className={styles.downloadFileIcon} href={FixedLength ? downloadFixedLengthTemplateFile : downloadTemplateFile} download={FixedLength ? "Fixed length template file" : "Template file"} target='_blank' rel='noreferrer'><i className="bi bi-cloud-arrow-down-fill"></i></a>
+                                    <label className={"p-2" + " " + styles.labelDark}>Download template file</label><br /><a className={styles.downloadFileIcon+ " "+ styles.checkboxiconDownload} href={FixedLength ? downloadFixedLengthTemplateFile : downloadTemplateFile} download={FixedLength ? "Fixed length template file" : "Template file"} target='_blank' rel='noreferrer'><i className="bi bi-cloud-arrow-down-fill"></i></a>
                                 </div>
 
                             </div>
@@ -253,7 +253,7 @@ export default function Form() {
                                 <div className={"form-group" + " " + styles.colDisplay}>
 
                                     <label htmlFor="exampleInputTemplateFile" className={"p-2" + " " + styles.labelDark}>Template File</label>
-                                    <input onChange={handleFileChange} type="file" className="form-control" id="exampleInputTemplateDownload" />
+                                    <input onChange={handleFileChange} type="file" className={"form-control"+" "+styles.selectFileInput} id="exampleInputTemplateDownload" />
                                 </div>
                             </div>
 
@@ -264,17 +264,17 @@ export default function Form() {
 
                             <div className={'col-4 p-2'}>
                                 <div className={"form-group" + " " + styles.colDisplay}>
-                                    <label className={"p-2 form-check-label" + " " + styles.labelDark+ " "+ styles.labelDarkCheckBox} htmlFor="flexCheckDefault">
+                                    <label className={"p-2 form-check-label" + " " + styles.labelDark} htmlFor="flexCheckDefault">
                                         Is Active
                                     </label>
-                                    <input onChange={(e) => { setIsActive(e.target.checked); }} checked={IsActive} name="IsActive" className={styles.checkBox} type="checkbox" />
+                                    <input onChange={(e) => { setIsActive(e.target.checked); }} checked={IsActive} name="IsActive" className={styles.checkBox+ " "+ styles.checkboxiconIsactive} type="checkbox" />
                                 </div>
 
                             </div>
                             <div className={'col-4 p-2'}>
                                 <div className={"form-group" + " " + styles.colDisplay}>
                                     <label htmlFor="exampleInputTemplateUpload" className={"p-2" + " " + styles.labelDark}>Sample File</label>
-                                    <input onChange={(e) => formData.set('samplefile', e.target.files[0])} type="file" className="form-control" id="exampleInputTemplateUpload" />
+                                    <input onChange={(e) => formData.set('samplefile', e.target.files[0])} type="file" className={"form-control"+" "+styles.selectFileInput} id="exampleInputTemplateUpload" />
                                 </div>
                             </div>
                             <div className='col-4 p-2'>

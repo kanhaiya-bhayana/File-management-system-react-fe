@@ -5,7 +5,7 @@
 .dropdownInput{
     border: 0.5px solid lightgray;
     float: left;
-    margin-right: 200px;
+    /* margin-right: 200px; */
     width: 350px;
     /* padding: 4px; */
 }
@@ -42,8 +42,20 @@
     background-color: red;
      */
      float: left;
-     margin-top: 60px;
+     margin-top: 45px;
 }
-.labelDarkCheckBox{
-    margin-top: 45px;
+.checkboxiconFixedlength{
+    margin-left: -95px;
+}
+.checkboxiconDownload{
+    margin-left: -175px;
+    margin-top: 5px;
+}
+.checkboxiconIsactive{
+    margin-left: -65px;
+}
+
+
+.selectFileInput{
+    width: 350px;
 }
