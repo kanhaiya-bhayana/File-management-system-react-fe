@@ -1,6 +1,6 @@
-const sourcePathPrefix = "00landing/data/";
+const sourcePathPrefix = "/data/";
 const sourcePathSufix = "/inbound";
-const destinationPathPrefix = "00raw/";
+const destinationPathPrefix = "/";
 
 
 export const pathConfiguration = {
