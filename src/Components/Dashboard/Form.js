@@ -222,9 +222,11 @@ export default function Form() {
                                     <br />
                                     <select onChange={handleDropdownChange} name="delimiter" className={"custom-select btn" + " " + styles.dropdownInput} >
                                         <option defaultValue>Select</option>
-                                        <option value=",">,</option>
-                                        <option value=";">;</option>
-                                        <option value="/">/</option>
+                                        <option value="1">;</option>
+                                        <option value="2">t</option>
+                                        <option value="3">,</option>
+                                        <option value="4">|</option>
+                                        <option value="5">:</option>
                                     </select>
                                 </div>
                             </div>
