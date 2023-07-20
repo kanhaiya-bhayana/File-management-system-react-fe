@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Form.module.css'
 import { Button, notification, Space } from 'antd';
 import { isEmail } from 'validator';
@@ -18,10 +18,11 @@ export default function Form() {
     const [formData, setFormData] = useState(new FormData());
     const [fileName, setFileName] = useState("");
     const [vendorName, setVendorName] = useState("");
-    let sourcepath = pathConfiguration.sourcepathprefix + `${fileName}/${vendorName}` + pathConfiguration.sourcepathsufix;
+    let sourcepath = pathConfiguration.sourcepathprefix + `${vendorName}/${fileName}` + pathConfiguration.sourcepathsufix;
     let destinationpath = pathConfiguration.destinationpathprefix + `${vendorName}/${fileName}`;
     const [FixedLength, setFixedLength] = useState(false);
-    const [IsActive, setIsActive] = useState(false);
+    const [IsActive, setIsActive] = useState(true);
+    const [delimiterData, setDelimiterData] = useState([]);
 
     const openNotificationWithIcon = (type, msg, des) => {
         api[type]({
@@ -50,6 +51,53 @@ export default function Form() {
         return regex.test(emailid);
 
     }
+
+    const dropdownOptions = ()=>{
+        fetch('https://localhost:7116/api/Data/GetDelimiters', {
+                method: 'GET',
+                headers: {
+                    // "Content-Type": "multipart/form-data",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE",
+                },
+                // body: formData,
+
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        // File uploaded successfully
+                        return response.json(); // Parse the response body as JSON
+                    } else {
+
+                        throw new Error('Error fetching dropdownoptions');
+                    }
+                })
+                .then((data) => {
+                    // setFormData(new FormData());
+                    // Access the response data
+                    console.log(data);
+                    if (data) {
+                        setLoading(false);
+                        setDelimiterData(data);
+                        console.log('Fetched successfully');
+                    }
+                    else {
+                        openNotificationWithIcon('error', 'Error fetching dropdownoptions', data.status)
+                    }
+                })
+                .catch((error) => {
+                    if (error == "TypeError: Failed to fetch") {
+                        setLoading(false);
+                        openNotificationWithIcon('error', 'Server error', 'Server is not running up.')
+                    } 
+                });
+    }
+
+    useEffect(()=>{
+        //Runs only on the first render
+        dropdownOptions();
+
+    },[])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -109,7 +157,7 @@ export default function Form() {
                     setFileName("");
                     setVendorName("");
                     setFixedLength(false);
-                    setIsActive(false);
+                    // setIsActive(false);
                     // console.log([...formData.entries()]);
                     console.log("null ho gyi");
                     if (error == "TypeError: Failed to fetch") {
@@ -124,6 +172,12 @@ export default function Form() {
         };
 
     }
+
+    const delimiterOptions = delimiterData.map((data,i) => {
+        return(
+            <option key={i} value={data.id}>{data.name} {data.description}</option>
+        )
+    })
 
 
 
@@ -143,11 +197,20 @@ export default function Form() {
 
                             <div className='col-4 p-2'>
                                 <div className={"form-group" + " " + styles.colDisplay}>
-                                    <label htmlFor="exampleInputEmail" className={"p-2" + " " + styles.labelDark}>Email</label>
-                                    <input onChange={(e) => formData.set('emailid', e.target.value)} type="email" className="form-control" id="exampleInputEmail" placeholder="Enter email..." />
-                                </div>
 
+                                    <label className={"p-2" + " " + styles.labelDark}>FileDate</label>
+                                    {/* &nbsp;&nbsp;&nbsp;&nbsp; */}
+                                    <br />
+                                    <select required onChange={handleDropdownChange} name="filedate" className={"custom-select btn" + " " + styles.dropdownInput} >
+                                        <option defaultValue>Select</option>
+                                        <option value="1">Header</option>
+                                        <option value="2">Footer</option>
+                                        <option value="3">FileName</option>
+                                        <option value="4">CurrentDate</option>
+                                    </select>
+                                </div>
                             </div>
+                           
                             <div className='col-4 p-2' >
                                 <div className={"form-group" + " " + styles.colDisplay}>
 
@@ -222,11 +285,12 @@ export default function Form() {
                                     <br />
                                     <select onChange={handleDropdownChange} name="delimiter" className={"custom-select btn" + " " + styles.dropdownInput} >
                                         <option defaultValue>Select</option>
-                                        <option value="1">;</option>
+                                        {/* <option value="1">;</option>
                                         <option value="2">t</option>
                                         <option value="3">,</option>
                                         <option value="4">|</option>
-                                        <option value="5">:</option>
+                                        <option value="5">:</option> */}
+                                        {delimiterOptions}
                                     </select>
                                 </div>
                             </div>
@@ -267,7 +331,7 @@ export default function Form() {
                                     <label className={"p-2 form-check-label" + " " + styles.labelDark} htmlFor="flexCheckDefault">
                                         Is Active
                                     </label>
-                                    <input onChange={(e) => { setIsActive(e.target.checked); }} checked={IsActive} name="IsActive" className={styles.checkBox+ " "+ styles.checkboxiconIsactive} type="checkbox" />
+                                    <input onChange={(e) => { setIsActive(e.target.checked); }} checked={IsActive} disabled name="IsActive" className={styles.checkBox+ " "+ styles.checkboxiconIsactive} type="checkbox" />
                                 </div>
 
                             </div>
@@ -277,20 +341,14 @@ export default function Form() {
                                     <input onChange={(e) => formData.set('samplefile', e.target.files[0])} type="file" className={"form-control"+" "+styles.selectFileInput} id="exampleInputTemplateUpload" />
                                 </div>
                             </div>
+                            
+
                             <div className='col-4 p-2'>
                                 <div className={"form-group" + " " + styles.colDisplay}>
-
-                                    <label className={"p-2" + " " + styles.labelDark}>FileDate</label>
-                                    {/* &nbsp;&nbsp;&nbsp;&nbsp; */}
-                                    <br />
-                                    <select required onChange={handleDropdownChange} name="filedate" className={"custom-select btn" + " " + styles.dropdownInput} >
-                                        <option defaultValue>Select</option>
-                                        <option value="1">Header</option>
-                                        <option value="2">Footer</option>
-                                        <option value="3">FileName</option>
-                                        <option value="4">CurrentDate</option>
-                                    </select>
+                                    <label htmlFor="exampleInputEmail" className={"p-2" + " " + styles.labelDark}>Email</label>
+                                    <input onChange={(e) => formData.set('emailid', e.target.value)} type="email" className="form-control" id="exampleInputEmail" placeholder="Enter email..." />
                                 </div>
+
                             </div>
                         </div>
                         <hr />
